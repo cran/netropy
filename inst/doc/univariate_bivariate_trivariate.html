@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Univariate, Bivariate and Trivariate Entropies</title>
+
+<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="data:text/css,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" type="text/css" />
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Univariate, Bivariate and Trivariate Entropies</h1>
+
+
+
+<p>The univariate entropy for discrete variable <span class="math inline">\(X\)</span> with <span class="math inline">\(r\)</span> outcomes is defined by <span class="math display">\[H(X) = \sum_x p(x) \log_2\frac{1}{p(x)} \]</span> with which we can check for redundancy and uniformity: a discrete random variable with minimal zero entropy has no uncertainty and is always equal to the same single outcome. Thus, it is a constant that contributes nothing to further analysis and can be omitted. Maximum entropy is <span class="math inline">\(\log_2r\)</span> and it corresponds to a uniform probability distribution over the outcomes.</p>
+<p>The bivariate entropy for discrete variable <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> is defined by <span class="math display">\[H(X,Y) = \sum_x \sum_y p(x,y) \log_2\frac{1}{p(x,y)}\]</span> with which we can check for redundancy, functional relationships and stochastic independence between pairs of variables. It is bounded according to <span class="math display">\[H(X) \leq H(X,Y) \leq H(X)+H(Y)\]</span> where we have</p>
+<ul>
+<li><p>equality to the left iff there is a functional relationship <span class="math inline">\(Y = f(X)\)</span> such that each unique outcome of <span class="math inline">\(X\)</span> yields a unique outcome of <span class="math inline">\(Y\)</span></p></li>
+<li><p>equality to the right iff <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are stochastically independent <span class="math inline">\(X\bot Y\)</span> such that the probability of any bivariate outcome is the product of the probabilities of the univariate outcomes.</p></li>
+</ul>
+<p>Note that when the bivariate entropy of two variables is equal to the univariate entropy of either one alone, then one of these variables should be omitted as they are redundant providing no additional information.</p>
+<p>These results on bivariate entropies are directly linked to <a href="joint_entropies.html">joint entropies and association graphs</a>.</p>
+<p>Similarly, trivariate entropies (and higher order entropies) allows us to check for functional relationships and stochastic independence between three (or more) variables. The trivariate entropy of three variables <span class="math inline">\(X\)</span>, <span class="math inline">\(Y\)</span> and <span class="math inline">\(Z\)</span> is defined by <span class="math display">\[H(X,Y,Z) = \sum_x \sum_y \sum_z p(x,y,z) \log_2\frac{1}{p(x,y,z)}\]</span></p>
+<p>and bounded by <span class="math display">\[ H(X,Y) \leq H(X,Y,Z) \leq H(X,Z) + H(Y,Z) - H(Z). \]</span></p>
+<p>The results on bivariate and trivariate entropies are directly linked to <a href="prediction_power.html">prediction power and expected conditional entropies</a>.</p>
+<p>Examples of computing univariate, bivariate and trivariate entropies are given in the following.</p>
+<hr />
+<div id="example-univariate-and-bivariate-entropies" class="section level2">
+<h2>Example: univariate and bivariate entropies</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(netropy)</span></code></pre></div>
+<p>We create a dataframe <code>dyad.var</code> consisting of dyad variables as described and created in <a href="variable_domains.html">variable domains and data editing</a>. Similar analyses can be perfomed on observed and/or transformed dataframes with vertex or triad variables.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dyad.var)</span></code></pre></div>
+<pre><code>##   status gender office years age practice lawschool cowork advice friend
+## 1      3      3      0     8   8        1         0      0      3      2
+## 2      3      3      3     5   8        3         0      0      0      0
+## 3      3      3      3     5   8        2         0      0      1      0
+## 4      3      3      0     8   8        1         6      0      1      2
+## 5      3      3      0     8   8        0         6      0      1      1
+## 6      3      3      1     7   8        1         6      0      1      1</code></pre>
+<p>The function <code>entropy_bivar()</code> computes the bivariate entropies of all pairs of variables in the dataframe. The output is given as an upper triangular matrix with cells giving the bivariate entropies of row and column variables. The diagonal thus gives the univariate entropies for each variable in the dataframe:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">entropy_bivar</span>(dyad.var)</span></code></pre></div>
+<pre><code>##           status gender office years   age practice lawschool cowork advice
+## status     1.493  2.868  3.640 3.370 3.912    3.453     4.363  2.092  2.687
+## gender        NA  1.547  3.758 3.939 4.274    3.506     4.439  2.158  2.785
+## office        NA     NA  2.239 4.828 4.901    4.154     5.058  2.792  3.388
+## years         NA     NA     NA 2.671 4.857    4.582     5.422  3.268  3.868
+## age           NA     NA     NA    NA 2.801    4.743     5.347  3.411  4.028
+## practice      NA     NA     NA    NA    NA    1.962     4.880  2.530  3.127
+## lawschool     NA     NA     NA    NA    NA       NA     2.953  3.567  4.186
+## cowork        NA     NA     NA    NA    NA       NA        NA  0.615  1.687
+## advice        NA     NA     NA    NA    NA       NA        NA     NA  1.248
+## friend        NA     NA     NA    NA    NA       NA        NA     NA     NA
+##           friend
+## status     2.324
+## gender     2.415
+## office     3.044
+## years      3.483
+## age        3.637
+## practice   2.831
+## lawschool  3.812
+## cowork     1.456
+## advice     1.953
+## friend     0.881</code></pre>
+</div>
+<div id="example-redundant-variables" class="section level2">
+<h2>Example: redundant variables</h2>
+<p>Bivariate entropies can be used to detect redundant variables that should be omitted from the dataframe for further analysis. When calculating bivariate entropies, one can check of whether the diagonal values are equal to any of the other values in the rows an columns. As seen above, the dataframe <code>dyad.var</code> has no redundant variables. This can also be checked using the function <code>redundancy()</code> which yields a binary matrix as output indicating which row and column variables are hold the same information:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">redundancy</span>(dyad.var)</span></code></pre></div>
+<pre><code>## no redundant variables</code></pre>
+<pre><code>## NULL</code></pre>
+<p>To illustrate an example with redundancy, we use the dataframe <code>att.var</code> with node attributes as described and created in <a href="variable_domains.html">variable domains and data editing</a>. Note however that we now keep the variable <code>senior</code> in this dataframe:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(att.var)</span></code></pre></div>
+<pre><code>##   senior status gender office years age practice lawschool
+## 1      1      0      1      0     2   2        1         0
+## 2      2      0      1      0     2   2        0         0
+## 3      3      0      1      1     1   2        1         0
+## 4      4      0      1      0     2   2        0         2
+## 5      5      0      1      1     2   2        1         1
+## 6      6      0      1      1     2   2        1         0</code></pre>
+<p>Checking redundancy on this dataframe yields the following output:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">redundancy</span>(att.var)</span></code></pre></div>
+<pre><code>##           senior status gender office years age practice lawschool
+## senior         0      1      1      1     1   1        1         1
+## status         0      0      0      0     0   0        0         0
+## gender         0      0      0      0     0   0        0         0
+## office         0      0      0      0     0   0        0         0
+## years          0      0      0      0     0   0        0         0
+## age            0      0      0      0     0   0        0         0
+## practice       0      0      0      0     0   0        0         0
+## lawschool      0      0      0      0     0   0        0         0</code></pre>
+<p>As seen, <code>senior</code> has been flagged as a redundant variable which is not surprising since it only consists of unique values. This redudancy can also be noted by computing the bivariate entropies and noting that the univariate entropy for this variable is equal to the bivariate entropies of pairs including this variable:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">entropy_bivar</span>(att.var)</span></code></pre></div>
+<pre><code>##           senior status gender office years   age practice lawschool
+## senior      6.15   6.15  6.150  6.150 6.150 6.150    6.150     6.150
+## status        NA   1.00  1.695  2.084 2.007 2.276    1.981     2.459
+## gender        NA     NA  0.817  1.927 2.226 2.383    1.799     2.323
+## office        NA     NA     NA  1.125 2.693 2.668    2.088     2.607
+## years         NA     NA     NA     NA 1.585 2.750    2.555     3.012
+## age           NA     NA     NA     NA    NA 1.585    2.558     2.876
+## practice      NA     NA     NA     NA    NA    NA    0.983     2.513
+## lawschool     NA     NA     NA     NA    NA    NA       NA     1.533</code></pre>
+</div>
+<div id="example-trivariate-entropies" class="section level2">
+<h2>Example: trivariate entropies</h2>
+<p>Trivariate entropies can be computed using the function <code>entropy_trivar()</code> which returns a dataframe with the first three columns representing possible triples of variables <code>V1</code>,<code>V2</code>, and <code>V3</code> from the dataframe in question, and their entropies <code>H(V1,V2,V3)</code> as the fourth column. We illustrated this on the dataframe <code>dyad.var</code>:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">entropy_trivar</span>(dyad.var)</span></code></pre></div>
+<pre><code>##            V1        V2        V3 H(V1,V2,V3)
+## 1      status    gender    office       4.938
+## 2      status    gender     years       4.609
+## 3      status    gender       age       5.129
+## 4      status    gender  practice       4.810
+## 5      status    gender lawschool       5.664
+## 6      status    gender    cowork       3.464
+## 7      status    gender    advice       4.048
+## 8      status    gender    friend       3.685
+## 9      status    office     years       5.321
+## 10     status    office       age       5.721
+## 11     status    office  practice       5.528
+## 12     status    office lawschool       6.303
+## 13     status    office    cowork       4.165
+## 14     status    office    advice       4.713
+## 15     status    office    friend       4.378
+## 16     status     years       age       5.430
+## 17     status     years  practice       5.264
+## 18     status     years lawschool       5.976
+## 19     status     years    cowork       3.959
+## 20     status     years    advice       4.535
+## 21     status     years    friend       4.167
+## 22     status       age  practice       5.832
+## 23     status       age lawschool       6.305
+## 24     status       age    cowork       4.498
+## 25     status       age    advice       5.080
+## 26     status       age    friend       4.695
+## 27     status  practice lawschool       6.268
+## 28     status  practice    cowork       3.989
+## 29     status  practice    advice       4.537
+## 30     status  practice    friend       4.258
+## 31     status lawschool    cowork       4.957
+## 32     status lawschool    advice       5.523
+## 33     status lawschool    friend       5.162
+## 34     status    cowork    advice       3.087
+## 35     status    cowork    friend       2.867
+## 36     status    advice    friend       3.360
+## 37     gender    office     years       5.984
+## 38     gender    office       age       6.277
+## 39     gender    office  practice       5.641
+## 40     gender    office lawschool       6.418
+## 41     gender    office    cowork       4.301
+## 42     gender    office    advice       4.873
+## 43     gender    office    friend       4.539
+## 44     gender     years       age       5.973
+## 45     gender     years  practice       5.837
+## 46     gender     years lawschool       6.558
+## 47     gender     years    cowork       4.532
+## 48     gender     years    advice       5.120
+## 49     gender     years    friend       4.731
+## 50     gender       age  practice       6.130
+## 51     gender       age lawschool       6.654
+## 52     gender       age    cowork       4.872
+## 53     gender       age    advice       5.459
+## 54     gender       age    friend       5.072
+## 55     gender  practice lawschool       6.301
+## 56     gender  practice    cowork       4.062
+## 57     gender  practice    advice       4.638
+## 58     gender  practice    friend       4.349
+## 59     gender lawschool    cowork       5.044
+## 60     gender lawschool    advice       5.632
+## 61     gender lawschool    friend       5.266
+## 62     gender    cowork    advice       3.217
+## 63     gender    cowork    friend       2.983
+## 64     gender    advice    friend       3.469
+## 65     office     years       age       6.786
+## 66     office     years  practice       6.552
+## 67     office     years lawschool       7.259
+## 68     office     years    cowork       5.344
+## 69     office     years    advice       5.861
+## 70     office     years    friend       5.528
+## 71     office       age  practice       6.737
+## 72     office       age lawschool       7.272
+## 73     office       age    cowork       5.428
+## 74     office       age    advice       5.988
+## 75     office       age    friend       5.622
+## 76     office  practice lawschool       6.876
+## 77     office  practice    cowork       4.645
+## 78     office  practice    advice       5.185
+## 79     office  practice    friend       4.934
+## 80     office lawschool    cowork       5.595
+## 81     office lawschool    advice       6.149
+## 82     office lawschool    friend       5.811
+## 83     office    cowork    advice       3.798
+## 84     office    cowork    friend       3.569
+## 85     office    advice    friend       4.045
+## 86      years       age  practice       6.624
+## 87      years       age lawschool       7.187
+## 88      years       age    cowork       5.442
+## 89      years       age    advice       6.005
+## 90      years       age    friend       5.618
+## 91      years  practice lawschool       7.181
+## 92      years  practice    cowork       5.117
+## 93      years  practice    advice       5.665
+## 94      years  practice    friend       5.360
+## 95      years lawschool    cowork       5.999
+## 96      years lawschool    advice       6.557
+## 97      years lawschool    friend       6.174
+## 98      years    cowork    advice       4.274
+## 99      years    cowork    friend       4.020
+## 100     years    advice    friend       4.505
+## 101       age  practice lawschool       7.140
+## 102       age  practice    cowork       5.290
+## 103       age  practice    advice       5.849
+## 104       age  practice    friend       5.538
+## 105       age lawschool    cowork       5.940
+## 106       age lawschool    advice       6.501
+## 107       age lawschool    friend       6.108
+## 108       age    cowork    advice       4.453
+## 109       age    cowork    friend       4.191
+## 110       age    advice    friend       4.672
+## 111  practice lawschool    cowork       5.436
+## 112  practice lawschool    advice       6.000
+## 113  practice lawschool    friend       5.706
+## 114  practice    cowork    advice       3.544
+## 115  practice    cowork    friend       3.358
+## 116  practice    advice    friend       3.810
+## 117 lawschool    cowork    advice       4.613
+## 118 lawschool    cowork    friend       4.381
+## 119 lawschool    advice    friend       4.836
+## 120    cowork    advice    friend       2.389</code></pre>
+</div>
+<div id="references" class="section level2">
+<h2>References</h2>
+<blockquote>
+<p>Frank, O., &amp; Shafie, T. (2016). Multivariate entropy analysis of network data. <em>Bulletin of Sociological Methodology/Bulletin de Méthodologie Sociologique</em>, 129(1), 45-63. <a href="https://doi.org/10.1177%2F0759106315615511">link</a></p>
+</blockquote>
+<blockquote>
+<p>Nowicki, K., Shafie, T., &amp; Frank, O. (Forthcoming 2022). <em>Statistical Entropy Analysis of Network Data</em>.</p>
+</blockquote>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
