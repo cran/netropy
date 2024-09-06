@@ -52,36 +52,6 @@ dyad.var <-
 ## ----show_data, eval=TRUE, include=TRUE, results ='markup'--------------------
 head(dyad.var)
 
-## ----biv_ent, eval=TRUE, include=TRUE, results ='markup'----------------------
-entropy_bivar(dyad.var)
-
-## ----red, eval=TRUE, include=TRUE, results ='markup'--------------------------
-redundancy(dyad.var)
-
-## ----edit_data2, eval=TRUE, include=FALSE, results ='hide'--------------------
-att.var <-
-  data.frame(
-    senior   = df.att$senior,
-    status   = df.att$status-1,
-    gender   = df.att$gender,
-    office   = df.att$office-1,
-    years    = ifelse(df.att$years<=3,0,
-                      ifelse(df.att$years<=13,1,2)),
-    age      = ifelse(df.att$age<=35,0,
-                      ifelse(df.att$age<=45,1,2)),
-    practice = df.att$practice,
-    lawschool= df.att$lawschool-1
-    )
-
-## ----show_data2, eval=TRUE, include=TRUE, results ='markup'-------------------
-head(att.var)
-
-## ----red2, eval=TRUE, include=TRUE, results ='markup'-------------------------
-redundancy(att.var)
-
-## ----biv_ent2, eval=TRUE, include=TRUE, results ='markup'---------------------
-entropy_bivar(att.var)
-
-## ----triv_ent, eval=TRUE, include=TRUE, results ='markup'---------------------
-entropy_trivar(dyad.var)
+## ----eval=TRUE----------------------------------------------------------------
+div_gof(dat = dyad.var, var1 = "friend", var2 = "cowork", var_cond = "advice")
 

@@ -1,4 +1,4 @@
-## ---- include = FALSE---------------------------------------------------------
+## ----include = FALSE----------------------------------------------------------
 knitr::opts_chunk$set(out.width = "100%",
   cache = FALSE
 )
@@ -107,5 +107,5 @@ triad.var <- data.frame(cbind(
              advice    = triad.adv$var,
              friend    = triad.frn$var)
              )
-head(triad.var, 5)
+head(triad.var)
 

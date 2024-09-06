@@ -1,19 +1,33 @@
-## ----include = FALSE----------------------------------------------------------
+---
+title: "Divergence Tests of Goodness of Fit"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Divergence Tests of Goodness of Fit}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
 knitr::opts_chunk$set(out.width = "100%",
   cache = FALSE
 )
+```
+Occurring cliques in association graphs represent connected components of dependent variables, and by comparing the graphs for different thresholds, specific structural models of multivariate dependence can be suggested and tested. The function `div_gof()` allows such hypothesis tests for pairwise independence of $X$ and $Y$: $X \bot Y$, and pairwise independence conditional a third variable $Z$: $X\bot Y|Z$.
 
-## ----load_library, eval=TRUE--------------------------------------------------
+```{r load_library, eval=TRUE}
 library(netropy)
+```
 
-## ----load_data, eval=TRUE, include=FALSE--------------------------------------
+## Example: 
+For the running example using
+```{r load_data, eval=TRUE, include=FALSE}
 data(lawdata) 
 adj.advice <- lawdata[[1]]
 adj.friend <- lawdata[[2]]
 adj.cowork <-lawdata[[3]]
 df.att <- lawdata[[4]]
-
-## ----edit_data, eval=TRUE, include=FALSE, results ='hide'---------------------
+```
+```{r edit_data, eval=TRUE, include=FALSE, results ='hide'}
 att.var <-
   data.frame(
     status   = df.att$status-1,
@@ -48,40 +62,20 @@ dyad.var <-
                   advice    = dyad.adv$var,
                   friend    = dyad.frn$var)
                   )
-
-## ----show_data, eval=TRUE, include=TRUE, results ='markup'--------------------
+```
+```{r show_data, eval=TRUE, include=TRUE, results ='markup'}
 head(dyad.var)
+```
 
-## ----biv_ent, eval=TRUE, include=TRUE, results ='markup'----------------------
-entropy_bivar(dyad.var)
+To test `friend`$\bot$ `cowork`$|$`advice`, that is whether dyad variable `friend` is independent of `cowork` given `advice` we use the function as shown below:
+```{r eval=TRUE}
+div_gof(dat = dyad.var, var1 = "friend", var2 = "cowork", var_cond = "advice")
+```
+Not specifying argument `var_cond` would instead test `friend`$\bot$`cowork` without any conditioning.
 
-## ----red, eval=TRUE, include=TRUE, results ='markup'--------------------------
-redundancy(dyad.var)
+## References
+> Frank, O., & Shafie, T. (2016). Multivariate entropy analysis of network data.
+*Bulletin of Sociological Methodology/Bulletin de Méthodologie Sociologique*, 129(1), 45-63. [link](https://doi.org/10.1177%2F0759106315615511)
 
-## ----edit_data2, eval=TRUE, include=FALSE, results ='hide'--------------------
-att.var <-
-  data.frame(
-    senior   = df.att$senior,
-    status   = df.att$status-1,
-    gender   = df.att$gender,
-    office   = df.att$office-1,
-    years    = ifelse(df.att$years<=3,0,
-                      ifelse(df.att$years<=13,1,2)),
-    age      = ifelse(df.att$age<=35,0,
-                      ifelse(df.att$age<=45,1,2)),
-    practice = df.att$practice,
-    lawschool= df.att$lawschool-1
-    )
 
-## ----show_data2, eval=TRUE, include=TRUE, results ='markup'-------------------
-head(att.var)
-
-## ----red2, eval=TRUE, include=TRUE, results ='markup'-------------------------
-redundancy(att.var)
-
-## ----biv_ent2, eval=TRUE, include=TRUE, results ='markup'---------------------
-entropy_bivar(att.var)
-
-## ----triv_ent, eval=TRUE, include=TRUE, results ='markup'---------------------
-entropy_trivar(dyad.var)
 
