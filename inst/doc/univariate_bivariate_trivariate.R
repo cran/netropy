@@ -85,3 +85,8 @@ entropy_bivar(att.var)
 ## ----triv_ent, eval=TRUE, include=TRUE, results ='markup'---------------------
 entropy_trivar(dyad.var)
 
+## ----tetrav_ent, eval=TRUE, include=TRUE, results='markup'--------------------
+entropy_tetravar(
+  dat = dyad.var[, c("gender", "years", "age", "office", "practice")]
+)
+

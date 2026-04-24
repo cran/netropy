@@ -52,9 +52,6 @@ dyad.var <-
 ## ----show_data, eval=TRUE, include=TRUE, results ='markup'--------------------
 head(dyad.var)
 
-## ----predpow1, eval=TRUE, include=TRUE, results ='markup'---------------------
+## ----predpow1, eval=TRUE, include=TRUE----------------------------------------
 prediction_power('status', dyad.var)
-
-## ----predplot, echo=FALSE, fig.align='center', out.width="80%"----------------
-knitr::include_graphics("predplot-status.png")
 

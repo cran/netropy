@@ -12,7 +12,7 @@
 
 
 
-<title>Univariate, Bivariate and Trivariate Entropies</title>
+<title>Univariate, Bivariate, Trivariate, and Tetravariate Entropies</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -48,8 +48,9 @@ overflow: visible;
 }
 </style>
 <style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -336,8 +337,8 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 
-<h1 class="title toc-ignore">Univariate, Bivariate and Trivariate
-Entropies</h1>
+<h1 class="title toc-ignore">Univariate, Bivariate, Trivariate, and
+Tetravariate Entropies</h1>
 
 
 
@@ -378,8 +379,29 @@ variables <span class="math inline">\(X\)</span>, <span class="math inline">\(Y\
 <p>The results on bivariate and trivariate entropies are directly linked
 to <a href="prediction_power.html">prediction power and expected
 conditional entropies</a>.</p>
-<p>Examples of computing univariate, bivariate and trivariate entropies
-are given in the following.</p>
+<p>Tetravariate entropies extend the same idea to quadruples of
+variables. For four variables <span class="math inline">\(X\)</span>,
+<span class="math inline">\(Y\)</span>, <span class="math inline">\(Z\)</span>, and <span class="math inline">\(U\)</span>, the tetravariate entropy is denoted
+by</p>
+<p><span class="math display">\[
+H(X,Y,Z,U).
+\]</span></p>
+<p>The function <code>entropy_tetravar()</code> computes tetravariate
+entropy quantities for all quadruples of variables in a dataframe. In
+addition to <span class="math inline">\(H(X,Y,Z,U)\)</span>, it returns
+expected conditional entropies and expected conditional joint entropies,
+such as</p>
+<p><span class="math display">\[
+EH(U \mid X,Y,Z) = H(X,Y,Z,U) - H(X,Y,Z),
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+EJ(X,Y \mid Z,U) = H(X,Z,U) + H(Y,Z,U) - H(Z,U) - H(X,Y,Z,U).
+\]</span></p>
+<p>These quantities are useful for studying prediction uncertainty and
+conditional dependence among four variables.</p>
+<p>Examples of computing univariate, bivariate, trivariate and
+tetravariate entropies are given in the following.</p>
 <hr />
 <div id="example-univariate-and-bivariate-entropies" class="section level2">
 <h2>Example: univariate and bivariate entropies</h2>
@@ -483,132 +505,171 @@ bivariate entropies of pairs including this variable:</p>
 <h2>Example: trivariate entropies</h2>
 <p>Trivariate entropies can be computed using the function
 <code>entropy_trivar()</code> which returns a dataframe with the first
-three columns representing possible triples of variables
-<code>V1</code>,<code>V2</code>, and <code>V3</code> from the dataframe
-in question, and their entropies <code>H(V1,V2,V3)</code> as the fourth
-column. We illustrated this on the dataframe <code>dyad.var</code>:</p>
+three columns <code>X</code>, <code>Y</code>, and <code>Z</code> giving
+the variable names for each triple from the dataframe in question, and
+their entropies <code>H(X,Y,Z)</code> as the fourth column. We
+illustrated this on the dataframe <code>dyad.var</code>:</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">entropy_trivar</span>(dyad.var)</span></code></pre></div>
-<pre><code>##            V1        V2        V3 H(V1,V2,V3)
-## 1      status    gender    office       4.938
-## 2      status    gender     years       4.609
-## 3      status    gender       age       5.129
-## 4      status    gender  practice       4.810
-## 5      status    gender lawschool       5.664
-## 6      status    gender    cowork       3.464
-## 7      status    gender    advice       4.048
-## 8      status    gender    friend       3.685
-## 9      status    office     years       5.321
-## 10     status    office       age       5.721
-## 11     status    office  practice       5.528
-## 12     status    office lawschool       6.303
-## 13     status    office    cowork       4.165
-## 14     status    office    advice       4.713
-## 15     status    office    friend       4.378
-## 16     status     years       age       5.430
-## 17     status     years  practice       5.264
-## 18     status     years lawschool       5.976
-## 19     status     years    cowork       3.959
-## 20     status     years    advice       4.535
-## 21     status     years    friend       4.167
-## 22     status       age  practice       5.832
-## 23     status       age lawschool       6.305
-## 24     status       age    cowork       4.498
-## 25     status       age    advice       5.080
-## 26     status       age    friend       4.695
-## 27     status  practice lawschool       6.268
-## 28     status  practice    cowork       3.989
-## 29     status  practice    advice       4.537
-## 30     status  practice    friend       4.258
-## 31     status lawschool    cowork       4.957
-## 32     status lawschool    advice       5.523
-## 33     status lawschool    friend       5.162
-## 34     status    cowork    advice       3.087
-## 35     status    cowork    friend       2.867
-## 36     status    advice    friend       3.360
-## 37     gender    office     years       5.984
-## 38     gender    office       age       6.277
-## 39     gender    office  practice       5.641
-## 40     gender    office lawschool       6.418
-## 41     gender    office    cowork       4.301
-## 42     gender    office    advice       4.873
-## 43     gender    office    friend       4.539
-## 44     gender     years       age       5.973
-## 45     gender     years  practice       5.837
-## 46     gender     years lawschool       6.558
-## 47     gender     years    cowork       4.532
-## 48     gender     years    advice       5.120
-## 49     gender     years    friend       4.731
-## 50     gender       age  practice       6.130
-## 51     gender       age lawschool       6.654
-## 52     gender       age    cowork       4.872
-## 53     gender       age    advice       5.459
-## 54     gender       age    friend       5.072
-## 55     gender  practice lawschool       6.301
-## 56     gender  practice    cowork       4.062
-## 57     gender  practice    advice       4.638
-## 58     gender  practice    friend       4.349
-## 59     gender lawschool    cowork       5.044
-## 60     gender lawschool    advice       5.632
-## 61     gender lawschool    friend       5.266
-## 62     gender    cowork    advice       3.217
-## 63     gender    cowork    friend       2.983
-## 64     gender    advice    friend       3.469
-## 65     office     years       age       6.786
-## 66     office     years  practice       6.552
-## 67     office     years lawschool       7.259
-## 68     office     years    cowork       5.344
-## 69     office     years    advice       5.861
-## 70     office     years    friend       5.528
-## 71     office       age  practice       6.737
-## 72     office       age lawschool       7.272
-## 73     office       age    cowork       5.428
-## 74     office       age    advice       5.988
-## 75     office       age    friend       5.622
-## 76     office  practice lawschool       6.876
-## 77     office  practice    cowork       4.645
-## 78     office  practice    advice       5.185
-## 79     office  practice    friend       4.934
-## 80     office lawschool    cowork       5.595
-## 81     office lawschool    advice       6.149
-## 82     office lawschool    friend       5.811
-## 83     office    cowork    advice       3.798
-## 84     office    cowork    friend       3.569
-## 85     office    advice    friend       4.045
-## 86      years       age  practice       6.624
-## 87      years       age lawschool       7.187
-## 88      years       age    cowork       5.442
-## 89      years       age    advice       6.005
-## 90      years       age    friend       5.618
-## 91      years  practice lawschool       7.181
-## 92      years  practice    cowork       5.117
-## 93      years  practice    advice       5.665
-## 94      years  practice    friend       5.360
-## 95      years lawschool    cowork       5.999
-## 96      years lawschool    advice       6.557
-## 97      years lawschool    friend       6.174
-## 98      years    cowork    advice       4.274
-## 99      years    cowork    friend       4.020
-## 100     years    advice    friend       4.505
-## 101       age  practice lawschool       7.140
-## 102       age  practice    cowork       5.290
-## 103       age  practice    advice       5.849
-## 104       age  practice    friend       5.538
-## 105       age lawschool    cowork       5.940
-## 106       age lawschool    advice       6.501
-## 107       age lawschool    friend       6.108
-## 108       age    cowork    advice       4.453
-## 109       age    cowork    friend       4.191
-## 110       age    advice    friend       4.672
-## 111  practice lawschool    cowork       5.436
-## 112  practice lawschool    advice       6.000
-## 113  practice lawschool    friend       5.706
-## 114  practice    cowork    advice       3.544
-## 115  practice    cowork    friend       3.358
-## 116  practice    advice    friend       3.810
-## 117 lawschool    cowork    advice       4.613
-## 118 lawschool    cowork    friend       4.381
-## 119 lawschool    advice    friend       4.836
-## 120    cowork    advice    friend       2.389</code></pre>
+<pre><code>##             X         Y         Z H(X,Y,Z)
+## 1      status    gender    office    4.938
+## 2      status    gender     years    4.609
+## 3      status    gender       age    5.129
+## 4      status    gender  practice    4.810
+## 5      status    gender lawschool    5.664
+## 6      status    gender    cowork    3.464
+## 7      status    gender    advice    4.048
+## 8      status    gender    friend    3.685
+## 9      status    office     years    5.321
+## 10     status    office       age    5.721
+## 11     status    office  practice    5.528
+## 12     status    office lawschool    6.303
+## 13     status    office    cowork    4.165
+## 14     status    office    advice    4.713
+## 15     status    office    friend    4.378
+## 16     status     years       age    5.430
+## 17     status     years  practice    5.264
+## 18     status     years lawschool    5.976
+## 19     status     years    cowork    3.959
+## 20     status     years    advice    4.535
+## 21     status     years    friend    4.167
+## 22     status       age  practice    5.832
+## 23     status       age lawschool    6.305
+## 24     status       age    cowork    4.498
+## 25     status       age    advice    5.080
+## 26     status       age    friend    4.695
+## 27     status  practice lawschool    6.268
+## 28     status  practice    cowork    3.989
+## 29     status  practice    advice    4.537
+## 30     status  practice    friend    4.258
+## 31     status lawschool    cowork    4.957
+## 32     status lawschool    advice    5.523
+## 33     status lawschool    friend    5.162
+## 34     status    cowork    advice    3.087
+## 35     status    cowork    friend    2.867
+## 36     status    advice    friend    3.360
+## 37     gender    office     years    5.984
+## 38     gender    office       age    6.277
+## 39     gender    office  practice    5.641
+## 40     gender    office lawschool    6.418
+## 41     gender    office    cowork    4.301
+## 42     gender    office    advice    4.873
+## 43     gender    office    friend    4.539
+## 44     gender     years       age    5.973
+## 45     gender     years  practice    5.837
+## 46     gender     years lawschool    6.558
+## 47     gender     years    cowork    4.532
+## 48     gender     years    advice    5.120
+## 49     gender     years    friend    4.731
+## 50     gender       age  practice    6.130
+## 51     gender       age lawschool    6.654
+## 52     gender       age    cowork    4.872
+## 53     gender       age    advice    5.459
+## 54     gender       age    friend    5.072
+## 55     gender  practice lawschool    6.301
+## 56     gender  practice    cowork    4.062
+## 57     gender  practice    advice    4.638
+## 58     gender  practice    friend    4.349
+## 59     gender lawschool    cowork    5.044
+## 60     gender lawschool    advice    5.632
+## 61     gender lawschool    friend    5.266
+## 62     gender    cowork    advice    3.217
+## 63     gender    cowork    friend    2.983
+## 64     gender    advice    friend    3.469
+## 65     office     years       age    6.786
+## 66     office     years  practice    6.552
+## 67     office     years lawschool    7.259
+## 68     office     years    cowork    5.344
+## 69     office     years    advice    5.861
+## 70     office     years    friend    5.528
+## 71     office       age  practice    6.737
+## 72     office       age lawschool    7.272
+## 73     office       age    cowork    5.428
+## 74     office       age    advice    5.988
+## 75     office       age    friend    5.622
+## 76     office  practice lawschool    6.876
+## 77     office  practice    cowork    4.645
+## 78     office  practice    advice    5.185
+## 79     office  practice    friend    4.934
+## 80     office lawschool    cowork    5.595
+## 81     office lawschool    advice    6.149
+## 82     office lawschool    friend    5.811
+## 83     office    cowork    advice    3.798
+## 84     office    cowork    friend    3.569
+## 85     office    advice    friend    4.045
+## 86      years       age  practice    6.624
+## 87      years       age lawschool    7.187
+## 88      years       age    cowork    5.442
+## 89      years       age    advice    6.005
+## 90      years       age    friend    5.618
+## 91      years  practice lawschool    7.181
+## 92      years  practice    cowork    5.117
+## 93      years  practice    advice    5.665
+## 94      years  practice    friend    5.360
+## 95      years lawschool    cowork    5.999
+## 96      years lawschool    advice    6.557
+## 97      years lawschool    friend    6.174
+## 98      years    cowork    advice    4.274
+## 99      years    cowork    friend    4.020
+## 100     years    advice    friend    4.505
+## 101       age  practice lawschool    7.140
+## 102       age  practice    cowork    5.290
+## 103       age  practice    advice    5.849
+## 104       age  practice    friend    5.538
+## 105       age lawschool    cowork    5.940
+## 106       age lawschool    advice    6.501
+## 107       age lawschool    friend    6.108
+## 108       age    cowork    advice    4.453
+## 109       age    cowork    friend    4.191
+## 110       age    advice    friend    4.672
+## 111  practice lawschool    cowork    5.436
+## 112  practice lawschool    advice    6.000
+## 113  practice lawschool    friend    5.706
+## 114  practice    cowork    advice    3.544
+## 115  practice    cowork    friend    3.358
+## 116  practice    advice    friend    3.810
+## 117 lawschool    cowork    advice    4.613
+## 118 lawschool    cowork    friend    4.381
+## 119 lawschool    advice    friend    4.836
+## 120    cowork    advice    friend    2.389</code></pre>
+</div>
+<div id="example-tetravariate-entropies" class="section level2">
+<h2>Example: tetravariate entropies</h2>
+<p>To compute tetravariate entropy quantities for five selected dyad
+variables, we use:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="fu">entropy_tetravar</span>(</span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>  <span class="at">dat =</span> dyad.var[, <span class="fu">c</span>(<span class="st">&quot;gender&quot;</span>, <span class="st">&quot;years&quot;</span>, <span class="st">&quot;age&quot;</span>, <span class="st">&quot;office&quot;</span>, <span class="st">&quot;practice&quot;</span>)]</span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>)</span></code></pre></div>
+<pre><code>##         X        Y      Z        U H_XYZU EH_U_XYZ EH_Z_XYU EJ_XY_ZU
+## 1  gender    years    age   office   7.65     1.68     1.67     0.51
+## 2  gender      age  years   office   7.65     1.68     1.37     0.29
+## 3  gender   office  years      age   7.65     1.67     1.37     0.25
+## 4   years      age gender   office   7.65     1.68     0.86     0.85
+## 5   years   office gender      age   7.65     1.67     0.86     0.33
+## 6     age   office gender    years   7.65     1.37     0.86     0.37
+## 7  gender    years    age practice   7.66     1.69     1.82     0.35
+## 8  gender      age  years practice   7.66     1.69     1.53     0.22
+## 9  gender practice  years      age   7.66     1.82     1.53     0.08
+## 10  years      age gender practice   7.66     1.69     1.04     0.80
+## 11  years practice gender      age   7.66     1.82     1.04     0.17
+## 12    age practice gender    years   7.66     1.53     1.04     0.21
+## 13 gender    years office practice   7.66     1.68     1.83     0.38
+## 14 gender   office  years practice   7.66     1.68     2.02     0.15
+## 15 gender practice  years   office   7.66     1.83     2.02     0.05
+## 16  years   office gender practice   7.66     1.68     1.11     0.31
+## 17  years practice gender   office   7.66     1.83     1.11     0.20
+## 18 office practice gender    years   7.66     2.02     1.11     0.22
+## 19 gender      age office practice   7.88     1.60     1.75     0.34
+## 20 gender   office    age practice   7.88     1.60     2.24     0.24
+## 21 gender practice    age   office   7.88     1.75     2.24     0.23
+## 22    age   office gender practice   7.88     1.60     1.14     0.38
+## 23    age practice gender   office   7.88     1.75     1.14     0.28
+## 24 office practice gender      age   7.88     2.24     1.14     0.25
+## 25  years      age office practice   8.26     1.47     1.63     0.88
+## 26  years   office    age practice   8.26     1.47     1.70     0.36
+## 27  years practice    age   office   8.26     1.63     1.70     0.37
+## 28    age   office  years practice   8.26     1.47     1.52     0.34
+## 29    age practice  years   office   8.26     1.63     1.52     0.26
+## 30 office practice  years      age   8.26     1.70     1.52     0.30</code></pre>
 </div>
 <div id="references" class="section level2">
 <h2>References</h2>

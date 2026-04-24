@@ -1,5 +1,5 @@
 ---
-title: "Univariate, Bivariate and Trivariate Entropies"
+title: "Univariate, Bivariate, Trivariate, and Tetravariate Entropies"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Univariate, Bivariate and Trivariate Entropies}
@@ -38,7 +38,29 @@ $$ H(X,Y) \leq H(X,Y,Z) \leq H(X,Z) + H(Y,Z) - H(Z). $$
 
 The results on bivariate and trivariate entropies are directly linked to [prediction power and expected conditional entropies](prediction_power.html).
 
-Examples of computing univariate, bivariate and trivariate entropies are given in the following. 
+
+Tetravariate entropies extend the same idea to quadruples of variables. For four variables $X$, $Y$, $Z$, and $U$, the tetravariate entropy is denoted by
+
+$$
+H(X,Y,Z,U).
+$$
+
+The function `entropy_tetravar()` computes tetravariate entropy quantities for all quadruples of variables in a dataframe. In addition to $H(X,Y,Z,U)$, it returns expected conditional entropies and expected conditional joint entropies, such as
+
+$$
+EH(U \mid X,Y,Z) = H(X,Y,Z,U) - H(X,Y,Z),
+$$
+
+and
+
+$$
+EJ(X,Y \mid Z,U) = H(X,Z,U) + H(Y,Z,U) - H(Z,U) - H(X,Y,Z,U).
+$$
+
+These quantities are useful for studying prediction uncertainty and conditional dependence among four variables.
+
+
+Examples of computing univariate, bivariate, trivariate and tetravariate entropies are given in the following. 
 
 ________________________________________________________________________________
 
@@ -135,11 +157,19 @@ As seen,  `senior` has been flagged as a redundant variable which is not surpris
 entropy_bivar(att.var)
 ```
 ## Example: trivariate entropies
-Trivariate entropies can be computed using the function `entropy_trivar()` which returns a dataframe with the first three columns representing possible triples of variables `V1`,`V2`, and `V3` from the dataframe in question, and their entropies `H(V1,V2,V3)` as the fourth column. We illustrated this on the dataframe `dyad.var`:
+Trivariate entropies can be computed using the function `entropy_trivar()` which returns a dataframe with the first three columns `X`, `Y`, and `Z` giving the variable names for each triple from the dataframe in question, and their entropies `H(X,Y,Z)` as the fourth column. We illustrated this on the dataframe `dyad.var`:
 ```{r triv_ent, eval=TRUE, include=TRUE, results ='markup'}
 entropy_trivar(dyad.var)
 ```
 
+## Example: tetravariate entropies
+To compute tetravariate entropy quantities for five selected dyad variables, we use:
+
+```{r tetrav_ent, eval=TRUE, include=TRUE, results='markup'}
+entropy_tetravar(
+  dat = dyad.var[, c("gender", "years", "age", "office", "practice")]
+)
+```
 
 ## References
 > Frank, O., & Shafie, T. (2016). Multivariate entropy analysis of network data.
